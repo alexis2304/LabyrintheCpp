@@ -26,7 +26,7 @@ void set_map_position(Lb_Map *map, Vector2 current_position){
     map->set_point_at(current_position.get_x(), current_position.get_y(), point);
 }
 
-Lb_Map init_Map(){
+Lb_Map init_Map(int const& step){
     int const t_size = 4;
     int const map_width     = WINDOW_WIDTH;
     int const map_height    = WINDOW_HEIGHT;
@@ -54,7 +54,7 @@ Lb_Map init_Map(){
         bool asWall = true;
         Vector2 next_position;
         do {
-            next_position = (current_position + (t_arr[position_random] * 8) );
+            next_position = (current_position + (t_arr[position_random] * step) );
             if(next_position.get_x() < map.get_width()  && next_position.get_x() >= 0 && next_position.get_y() < map.get_height() && next_position.get_y() >= 0){
                 if(!map.get_point_at(next_position.get_x(), next_position.get_y()).get_visibility()){
                     asWall = false;
@@ -75,7 +75,7 @@ Lb_Map init_Map(){
         }else{
             current_position = next_position;
             set_map_position(&map, current_position);
-            for(int i = 1; i < 8; i++){
+            for(int i = 1; i < step; i++){
                 set_map_position(&map, current_position - t_arr[position_random] * i);
             }
             cache_position.push_back(current_position);
@@ -96,7 +96,10 @@ int main(int argc, const char * argv[]) {
     
     SDL_Init(SDL_INIT_VIDEO);
     SDL_CreateWindowAndRenderer(WINDOW_WIDTH, WINDOW_HEIGHT, 0, &window, &renderer);
-    
+    int step = 8;
+    if(argc > 1){
+        step = atoi(argv[1]);
+    }
     
     /*for (i = 0; i < WINDOW_WIDTH; ++i)
         SDL_RenderDrawPoint(renderer, i, i);*/
@@ -106,12 +109,19 @@ int main(int argc, const char * argv[]) {
             break;
         if(event.type == SDL_KEYDOWN){
             switch(event.key.keysym.sym){
+                case SDLK_i:
+                        step++;
+                    break;
+                    case SDLK_d:
+                    if(step > 0){
+                        step--;
+                    }
+                    break;
                 case SDLK_SPACE:
-                    //std::cout<<"Pressed key"<<std::endl;
                     SDL_SetRenderDrawColor(renderer, 0, 0, 255, 255);
                     SDL_RenderClear(renderer);
                     SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
-                    Lb_Map map = init_Map();
+                    Lb_Map map = init_Map(step);
                     for (int y = map.get_height() - 1; y >= 0; y--) {
                         for (int x = 0; x < map.get_width(); x++) {
                             if(map.get_point_at(x, y).get_visibility() == true){

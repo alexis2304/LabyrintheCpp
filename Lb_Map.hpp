@@ -14,7 +14,7 @@
 
 class Lb_Map {
 private:
-    std::vector<std::vector<Lb_Point>> points;
+    std::vector<std::vector<Lb_Point> > points;
     int height;
     int width;
 public:
