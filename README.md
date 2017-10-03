@@ -10,4 +10,4 @@ You need to compile with ```g++ *.cpp -o Labyrinth.exe -lSDL2```
 You need to compile with ```g++ *.cpp -o Labyrinth -lSDL2``` and launch it with ```./Labyrinth```
 ## How to use ?
 You can increase (press ```i``` key) or decrease (press ```d``` key) the resolution of the labyrinth. Do not forget to press the space key after decrease or increase to refresh the view.
-![](http://www.devprophet.com/Beta/LabyrinthCpp_Video.gif)
+![](http://devprophet.com/Beta/LabyrinthCpp_Video.gif)
